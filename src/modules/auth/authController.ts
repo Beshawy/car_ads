@@ -43,4 +43,13 @@ export class AuthController {
       data: { user: userWithoutPassword },
     });
   });
+
+  static logout = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    // In stateless JWT implementations, the actual token deletion happens on the client side.
+    // The server just confirms the route hit. The token is checked via authMiddleware.
+    res.status(200).json({
+      status: "success",
+      message: "Logged out successfully. Please remove your token from local storage.",
+    });
+  });
 }
