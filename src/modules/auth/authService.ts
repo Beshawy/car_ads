@@ -21,6 +21,17 @@ export class AuthService {
     });
 
     const token = generateToken({ id: user.id, email: user.email });
+
+    // Send Welcome Email
+    try {
+      const welcomeMessage = `Hello ${user.name},\n\nWelcome to CarAds! Your account has been successfully created.\nWe're thrilled to have you on board. Start browsing and posting your ads today.`;
+      
+      await EmailService.sendEmail(user.email, "Welcome to CarAds!", welcomeMessage);
+    } catch (err) {
+      console.error("Welcome email could not be sent:", err);
+      // We don't throw an error here because the user is already successfully registered
+    }
+
     return { user, token };
   }
 
