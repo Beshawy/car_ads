@@ -19,13 +19,13 @@ export class AuthRepository {
     });
   }
 
-  static async createUser(data: Prisma.UserCreateInput) {
+  static async createUser(data: any) {
     return prisma.user.create({
       data,
     });
   }
 
-  static async updateUser(id: number, data: Prisma.UserUpdateInput) {
+  static async updateUser(id: number, data: any) {
     return prisma.user.update({
       where: { id },
       data,
