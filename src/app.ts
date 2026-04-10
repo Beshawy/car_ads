@@ -21,6 +21,10 @@ app.use(passport.initialize());
 import { swaggerSpecs } from "./shared/config/swagger";
 import swaggerUi from "swagger-ui-express";
 
+app.get('/', (req: Request, res: Response) => {
+  res.redirect('/api-docs');
+});
+
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'success', message: 'API is running successfully' });
 });
