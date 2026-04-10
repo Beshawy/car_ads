@@ -41,6 +41,10 @@ export class AuthService {
       throw new AppError("Invalid credentials", 401);
     }
 
+    if (!user.password) {
+      throw new AppError("Invalid credentials. If you signed up using Google, please login with Google.", 401);
+    }
+
     const isMatch = await comparePassword(data.password, user.password);
     if (!isMatch) {
       throw new AppError("Invalid credentials", 401);
@@ -79,11 +83,22 @@ export class AuthService {
     }
   }
 
+  static async verifyResetCode(data: any) {
+    const hashedResetCode = crypto.createHash("sha256").update(data.code).digest("hex");
+    
+    const user = await AuthRepository.findUserByEmailAndResetCode(data.email, hashedResetCode);
+    if (!user) {
+      throw new AppError("Reset code is invalid or has expired", 400);
+    }
+    
+    return true;
+  }
+
   static async resetPassword(data: any) {
     const hashedResetCode = crypto.createHash("sha256").update(data.code).digest("hex");
     
-    // Find user with valid and unexpired code
-    const user = await AuthRepository.findUserByResetCode(hashedResetCode);
+    // Find user with matching email and valid unexpired code
+    const user = await AuthRepository.findUserByEmailAndResetCode(data.email, hashedResetCode);
     if (!user) {
       throw new AppError("Token is invalid or has expired", 400);
     }

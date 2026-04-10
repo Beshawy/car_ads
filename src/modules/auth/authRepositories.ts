@@ -8,9 +8,27 @@ export class AuthRepository {
     });
   }
 
+  static async findUserByGoogleId(googleId: string) {
+    return prisma.user.findUnique({
+      where: { googleId },
+    });
+  }
+
   static async findUserByResetCode(code: string) {
     return prisma.user.findFirst({
       where: {
+        passwordResetCode: code,
+        passwordResetExpires: {
+          gt: new Date(), 
+        },
+      },
+    });
+  }
+
+  static async findUserByEmailAndResetCode(email: string, code: string) {
+    return prisma.user.findFirst({
+      where: {
+        email: email,
         passwordResetCode: code,
         passwordResetExpires: {
           gt: new Date(), 

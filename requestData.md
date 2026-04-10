@@ -44,22 +44,36 @@
 
 ---
 
-## 4. Reset Password (إعادة تعيين كلمة المرور)
+## 4. Verify Code (التحقق من الكود)
+**المسار:** `POST /api/v1/auth/verify-code`
+
+**البيانات (Body - JSON):**
+```json
+{
+  "email": "ahmed88@example.com",
+  "code": "123456"
+}
+```
+
+---
+
+## 5. Reset Password (إعادة تعيين كلمة المرور)
 **المسار:** `POST /api/v1/auth/reset-password`
 
 **البيانات (Body - JSON):**
 ```json
 {
+  "email": "ahmed88@example.com",
   "code": "123456",
   "newPassword": "NewPassword456",
   "passwordConfirm": "NewPassword456"
 }
 ```
-*(ملاحظة: يجب استبدال `"123456"` بالكود الفعلي المكون من 6 أرقام والمُرسل إلى بريد المستخدم).*
+
 
 ---
 
-## 5. Logout (تسجيل الخروج)
+## 6. Logout (تسجيل الخروج)
 **المسار:** `POST /api/v1/auth/logout`
 
 **الترويسة (Headers):**
